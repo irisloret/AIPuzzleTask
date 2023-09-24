@@ -1,4 +1,4 @@
-import TaskPuzzle.streamlit as st
+import streamlit as st
 from simpleai.search import CspProblem, backtrack
 import time 
 
