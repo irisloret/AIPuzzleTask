@@ -122,8 +122,8 @@ if solve_button and puzzle_input:
         col4[1].subheader("Solution:")
         word_parts = word_equation.split()
         if len(word_parts) == 3:
-            col5[1].write(words[0] + " + " + words[1] + " = " + words[2])
-            col5[1].write(word_parts[0] + " + " + word_parts[1] + " = " + word_parts[2])
+            col5[1].write(words[0] + " "+ equation_input+ " " + words[1] + " = " + words[2])
+            col5[1].write(word_parts[0] + " "+ equation_input+" " + word_parts[1] + " = " + word_parts[2])
         import pandas as pd
         df = pd.DataFrame({"Letter": letters, "Value": values})
         table = df.to_html(index=False, escape=False, classes=["styled-table"])
