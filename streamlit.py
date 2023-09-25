@@ -1,4 +1,4 @@
-import TaskPuzzle.streamlit as st
+import streamlit as st
 from simpleai.search import CspProblem, backtrack
 import time 
 
@@ -85,8 +85,11 @@ header = st.container()
 solution = st.container()
 
 col1, col2 = st.columns(2)
+col3 = st.columns((4,1,4))
+col4 = st.columns((2,2,1))
+col5 = st.columns((5,2,5))
 
-solve_button = st.button("Solve")
+solve_button = col3[1].button("Solve")
 
 
 with header:
@@ -99,14 +102,33 @@ with col2:
     equation_input = st.selectbox("Choose the equation sign: ", options=['+','-','*','/'])
 
 if solve_button and puzzle_input:
+    puzzle_input = ' '.join(puzzle_input.split())
     solution = solve_cryptoarithmetic_puzzle(puzzle_input, equation_input)
     if solution:
-        # Format the solution as a table for better readability
-        st.subheader("Solution:")
+        #get letters and values from list
+        letters = list(solution.keys())
+        values = list(solution.values())
+
+        #dictionary
+        letter_to_value = dict(zip(letters, values))
+
+        #get the separate words and also turn them into numbers 
+        words = puzzle_input.split()
+        word_equation = puzzle_input
+        for letter, value in letter_to_value.items():
+            word_equation = word_equation.replace(letter, str(value))
+        
+        #show the solution
+        col4[1].subheader("Solution:")
+        word_parts = word_equation.split()
+        if len(word_parts) == 3:
+            col5[1].write(words[0] + " + " + words[1] + " = " + words[2])
+            col5[1].write(word_parts[0] + " + " + word_parts[1] + " = " + word_parts[2])
         import pandas as pd
-        df = pd.DataFrame({"Letter": solution.keys(), "Value": solution.values()})
+        df = pd.DataFrame({"Letter": letters, "Value": values})
         table = df.to_html(index=False, escape=False, classes=["styled-table"])
         st.write(table, unsafe_allow_html=True)
+    
         st.write()
     else:
         st.write("There is no solution for this puzzle.")
